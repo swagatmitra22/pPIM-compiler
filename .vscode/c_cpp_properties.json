@@ -4,7 +4,9 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:/Program Files/LLVM/include"
+                "C:/Program Files/LLVM/include",
+                "C:/Program Files/LLVM/include/c++/v1",
+                "C:/Program Files/LLVM/lib/clang/20.1.1/include"
             ],
             "defines": [
                 "_DEBUG",

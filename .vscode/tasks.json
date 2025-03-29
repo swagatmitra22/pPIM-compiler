@@ -6,10 +6,15 @@
             "label": "clang++ build active file",
             "command": "C:/Program Files/LLVM/bin/clang++.exe",
             "args": [
+                "-std=c++17",
+                "-I",
+                "C:/Program Files/LLVM/include/c++/v1",
+                "-I",
+                "C:/Program Files/LLVM/lib/clang/20.1.1/include",
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+                "${fileDirname}/${fileBasenameNoExtension}.exe"
             ],
             "options": {
                 "cwd": "C:/Program Files/LLVM/bin"
