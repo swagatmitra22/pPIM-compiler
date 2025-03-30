@@ -13,14 +13,12 @@ int main() {
     
     int C[r1][c2];
     
-    // Initialize result matrix with zeros
     for (int i = 0; i < r1; i++) {
         for (int j = 0; j < c2; j++) {
             C[i][j] = 0;
         }
     }
     
-    // Perform matrix multiplication
     for (int i = 0; i < r1; i++) {
         for (int j = 0; j < c2; j++) {
             for (int k = 0; k < c1; k++) {
@@ -29,7 +27,6 @@ int main() {
         }
     }
     
-    // Display the result
     cout << "Resultant Matrix:" << endl;
     for (int i = 0; i < r1; i++) {
         for (int j = 0; j < c2; j++) {
