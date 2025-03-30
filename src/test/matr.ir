@@ -1,0 +1,50 @@
+@A = constant [2 x [3 x i32]] [[3 x i32] [i32 1, i32 2, i32 3], [3 x i32] [i32 4, i32 5, i32 6]]
+@B = constant [3 x [2 x i32]] [[2 x i32] [i32 7, i32 8], [2 x i32] [i32 9, i32 10], [2 x i32] [i32 11, i32 12]]
+@C = global [2 x [2 x i32]] zeroinitializer
+
+define void @matrix_multiply() {
+entry:
+  br label %outer_loop
+
+outer_loop:
+  %i = phi i32 [0, %entry], [%i_next, %outer_loop_end]
+  %outer_cond = icmp slt i32 %i, 2
+  br i1 %outer_cond, label %inner_loop, label %exit
+
+inner_loop:
+  %j = phi i32 [0, %outer_loop], [%j_next, %inner_loop_end]
+  %inner_cond = icmp slt i32 %j, 2
+  br i1 %inner_cond, label %innermost_loop, label %outer_loop_end
+
+innermost_loop:
+  %k = phi i32 [0, %inner_loop], [%k_next, %innermost_loop_end]
+  %innermost_cond = icmp slt i32 %k, 3
+  br i1 %innermost_cond, label %loop_body, label %inner_loop_end
+
+loop_body:
+  %A_ptr = getelementptr [2 x [3 x i32]], [2 x [3 x i32]]* @A, i32 0, i32 %i, i32 %k
+  %A_val = load i32, i32* %A_ptr
+  %B_ptr = getelementptr [3 x [2 x i32]], [3 x [2 x i32]]* @B, i32 0, i32 %k, i32 %j
+  %B_val = load i32, i32* %B_ptr
+  %product = mul i32 %A_val, %B_val
+  %C_ptr = getelementptr [2 x [2 x i32]], [2 x [2 x i32]]* @C, i32 0, i32 %i, i32 %j
+  %current = load i32, i32* %C_ptr
+  %sum = add i32 %current, %product
+  store i32 %sum, i32* %C_ptr
+  %k_next = add i32 %k, 1
+  br label %innermost_loop_end
+
+innermost_loop_end:
+  br label %innermost_loop
+
+inner_loop_end:
+  %j_next = add i32 %j, 1
+  br label %inner_loop
+
+outer_loop_end:
+  %i_next = add i32 %i, 1
+  br label %outer_loop
+
+exit:
+  ret void
+}
